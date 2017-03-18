@@ -44,7 +44,9 @@ class plantilla{
 
       <!-- Navigation -->
       <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
           <div class="container">
+
               <!-- Brand and toggle get grouped for better mobile display -->
               <div class="navbar-header">
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -53,21 +55,27 @@ class plantilla{
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="#">Tienda de Bicicletas</a>
+                  <a class="navbar-brand" href="<?php echo base_url('')?>">Tienda de Bicicletas</a>
               </div>
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
                       <li>
-                          <a href="#">Publicar Anuncio</a>
+                          <a href="#">Categorias</a>
                       </li>
                       <li>
-                          <a href="#">Servicios</a>
+                          <a href="#">Mi Cuenta</a>
                       </li>
                       <li>
-                          <a href="#">Contacto</a>
+                          <a href="#">Nosotros</a>
                       </li>
-                  </ul>
+                    </ul>
+
+                  <form class="navbar-form navbar-right">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Buscar Anuncio">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" method="post">Buscar</button>
+                  </form>
+
               </div>
               <!-- /.navbar-collapse -->
           </div>
