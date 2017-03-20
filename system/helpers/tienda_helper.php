@@ -61,13 +61,13 @@ class plantilla{
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
                       <li>
-                          <a href="#">Categorias</a>
+                          <a href="<?php echo site_url('web/categorias')?>">Categorias</a>
                       </li>
                       <li>
-                          <a href="#">Mi Cuenta</a>
+                          <a href="<?php echo site_url('web/mi_cuenta')?>">Mi Cuenta</a>
                       </li>
                       <li>
-                          <a href="#">Nosotros</a>
+                          <a href="<?php echo site_url('web/nosotros')?>">Nosotros</a>
                       </li>
                     </ul>
 

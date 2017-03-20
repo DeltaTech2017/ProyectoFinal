@@ -14,20 +14,41 @@ $this->load->view('inicio');
 
   }
 
-function ver_foto($cod=0){
-  if($cod==0){
-    redirect('web');
+  function categorias(){
+    $this->load->view('categorias');
+  }
 
+  function mi_cuenta(){
+    $this->load->view('mi_cuenta');
 
 
   }
-  $d=array();
-$d['cod']=$cod;
-  $this->load->view('ver_foto',$d);
 
-}
-  function acerca_de(){
-    $this->load->view('acerca_de');
+  function ver_anuncio(){
+    $this->load->view('ver_anuncio');
+
+
   }
+
+
+  function anuncio($cod=0){
+    if($cod==0){
+      redirect('web');
+
+
+
+    }
+    $d=array();
+  $d['cod']=$cod;
+    $this->load->view('ver_anuncio',$d);
+
+  }
+
+  function nosotros(){
+    $this->load->view('nosotros');
+  }
+
+
+
 
 }
