@@ -14,6 +14,17 @@ $this->load->view('inicio');
 
   }
 
+
+    function salir(){
+
+    unset($_SESSION['gale_user']);
+    redirect('web/login');
+    }
+
+function publicar_anuncio(){
+  $this->load->view('publicar_anuncio');
+}
+
   function categorias(){
     $this->load->view('categorias');
   }
@@ -29,6 +40,13 @@ $this->load->view('inicio');
 
 
   }
+
+  function login(){
+    $this->load->view('login');
+
+
+  }
+
 
 
   function anuncio($cod=0){

@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 class plantilla{
   static $instancia;
@@ -60,13 +61,13 @@ class plantilla{
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
-                      <li>
+                      <li class="categorias">
                           <a href="<?php echo site_url('web/categorias')?>">Categorias</a>
                       </li>
-                      <li>
+                      <li class="mi_cuenta">
                           <a href="<?php echo site_url('web/mi_cuenta')?>">Mi Cuenta</a>
                       </li>
-                      <li>
+                      <li class="nosotros">
                           <a href="<?php echo site_url('web/nosotros')?>">Nosotros</a>
                       </li>
                     </ul>

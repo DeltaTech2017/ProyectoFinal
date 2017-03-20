@@ -1,4 +1,1 @@
-<?php
-
-plantilla::inicio();
- ?>
+<?php plantilla::inicio(); ?>
