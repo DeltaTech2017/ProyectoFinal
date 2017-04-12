@@ -4,6 +4,8 @@
     redirect('web/login');
   }
 
+
+
   $CI=& get_instance();
   $usuario=$_SESSION['user'];
 $mensaje2="";
@@ -13,7 +15,61 @@ $rs3=$CI->db->query($sql2);
 $rs3=$rs3->result();
 $producto=$rs3[0];
 
+if(isset($_POST['anuncio'])){
+  $productos=cargar_pornombre();
 
+  if(count($productos)==0){
+
+echo"
+    <div style='color:red'>
+
+      No se encontraron productos!
+    </div>
+    ";
+  }else{
+
+
+    foreach ($productos as $producto) {
+
+      $sql2="select * from imagenes where idProducto = $producto->id ";
+      $CI =& get_instance();
+      $rs2=$CI->db->query($sql2);
+      $rs2= $rs2->result();
+      $imagen=array();
+
+      if (count($rs2)>0){
+        $imagen=$rs2[0];
+        $img=$imagen->id;
+      }else{
+        $img="logo";
+
+      }
+
+
+       echo"
+<div class='row'>
+<div class='col-sm-4 col-lg-4 col-md-4'>
+    <div class='thumbnail'>
+        <img src='/fotos/{$img}.jpg' style='height:250px' alt=''>
+        <div class='caption'>
+            <h4 class='pull-right'>RD$ {$producto->precio}</h4>
+            <h4><a href='<?php echo site_url('web/ver_anuncio')?>{$producto->nombre}</a>
+            </h4>
+            <p>{$producto->descripcion} </p>
+        </div>
+
+
+        </div>
+        </div>
+</div>
+
+       ";
+
+  }
+}
+
+
+}else{
   if($_POST){
   $sql="update productos set nombre=?, tipo=?, marca=?, tamanoAro=?, tamanoCuadro=?, color=?, precio=?, descripcion=?, usuario=?, fecha=? where id=$producto->id";
   $CI=& get_instance();
@@ -39,7 +95,7 @@ echo"
 </script>";
 redirect('web/mi_cuenta');
   }
-
+}
 
 
 

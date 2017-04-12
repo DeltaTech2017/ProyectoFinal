@@ -13,7 +13,9 @@
 
  <div class="text-right">
    <h4>Bienvenido <?php echo "{$usuario->nombre}" ?></h4>
+   <a class="btn btn-info" href="<?php echo site_url('web/editar_perfil')?>">Editar Perfil</a>
  <a class="btn btn-danger" href="<?php echo site_url('web/salir')?>">Salir</a>
+
 
  </div>
 
@@ -31,8 +33,31 @@
 <div class="col-md-4">
 
   <?php
+  $productos=cargar_items();
+   foreach ($productos as $producto) {
+
+     $sql2="select * from imagenes where idProducto = $usuario->id ";
+     $rs2=$CI->db->query($sql2);
+     $rs2= $rs2->result();
+     $imagen=array();
+
+     if (count($rs2)>0){
+       $imagen=$rs2[0];
+       $img=$imagen->id;
+     }else{
+       $img="persona";
+
+     }
+}
+
+
   echo"
-  <form class='form' role='form'>
+  <form class='form' method='post' role='form'>
+<div class='form-group'>
+<img width='150' id='foto' height='150'src='/fotos/{$img}.jpg' />
+
+</div>
+
 <div class='form-group'>
 <label class='control-label'>Nombre de Usuario</label>
 <p class='form-control-static'>{$usuario->nombre}</p>
@@ -60,6 +85,60 @@
 
   ";
 
+
+  if(isset($_POST['anuncio'])){
+    $productos=cargar_pornombre();
+
+    if(count($productos)==0){
+
+  echo"
+      <div style='color:red'>
+
+        No se encontraron productos!
+      </div>
+      ";
+    }else{
+
+
+      foreach ($productos as $producto) {
+
+        $sql2="select * from imagenes where idProducto = $producto->id ";
+        $CI =& get_instance();
+        $rs2=$CI->db->query($sql2);
+        $rs2= $rs2->result();
+        $imagen=array();
+
+        if (count($rs2)>0){
+          $imagen=$rs2[0];
+          $img=$imagen->id;
+        }else{
+          $img="logo";
+
+        }
+
+
+         echo"
+
+         <div class='col-sm-4 col-lg-4 col-md-4'>
+             <div class='thumbnail'>
+                 <img src='/fotos/{$img}.jpg'style='height:250px' alt=''>
+                 <div class='caption'>
+                     <h4 class='pull-right'>RD$ {$producto->precio}</h4>
+                     <h4><a href='<?php echo site_url('web/ver_anuncio')?>{$producto->nombre}</a>
+                     </h4>
+                     <p>{$producto->descripcion} </p>
+                 </div>
+
+
+                 </div>
+                 </div>
+         ";
+
+    }
+  }
+
+
+  }
    ?>
 
 </div>

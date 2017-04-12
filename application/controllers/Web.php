@@ -12,8 +12,50 @@ class Web extends CI_Controller{
   {
 $this->load->view('inicio');
 
-  }
 
+
+  }
+function buscar(){
+$this->load->view('buscar');
+
+
+}
+
+function micuenta2(){
+$this->load->view('micuenta2');
+
+
+}
+
+function editar_perfil(){
+
+  $this->load->view('editar_perfil');
+}
+
+
+function admin(){
+
+  $this->load->view('admin');
+}
+
+function admin_usuarios(){
+
+  $this->load->view('admin_usuarios');
+}
+
+function admin_comentarios(){
+
+  $this->load->view('admin_comentarios');
+}
+
+function loginadmin(){
+
+  $this->load->view('loginadmin');
+}
+function editar_clave(){
+
+  $this->load->view('editar_clave');
+}
   function ver_anuncio(){
 
     $this->load->view('ver_anuncio');
@@ -21,9 +63,11 @@ $this->load->view('inicio');
   }
 
 
+
     function salir(){
 
-    unset($_SESSION['gale_user']);
+    unset($_SESSION['user']);
+    session_destroy();
     redirect('web/login');
     }
 
@@ -34,6 +78,10 @@ function publicar_anuncio(){
 function buscar_color(){
   $this->load->view('buscar/color');
 
+}
+
+function buscar_tamanosc(){
+  $this->load->view('buscar/tamanosc');
 }
 
 function buscar_marcas(){
@@ -98,8 +146,6 @@ function buscar_tipos(){
   function nosotros(){
     $this->load->view('nosotros');
   }
-
-
 
 
 }

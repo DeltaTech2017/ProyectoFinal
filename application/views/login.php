@@ -3,6 +3,11 @@ $mensaje="";
 $mensaje2="";
 $nombreuser="";
 
+
+
+
+
+
 if($_GET){
   $sql="select * from usuarios where correo = ? and clave= ? ";
   $CI =& get_instance();
@@ -13,7 +18,7 @@ if($_GET){
 
   $rs=$rs->result();
   if(count($rs)>0){
-$_SESSION['user']=$rs[0];
+    $_SESSION['user']=$rs[0];
 
 
 redirect('web/mi_cuenta');
@@ -26,20 +31,86 @@ redirect('web/mi_cuenta');
 }
 
 if($_POST){
+  $sql1="select * from usuarios where correo = ?";
+  $CI =& get_instance();
+  $correo=$_POST['correo'];
+
+  $rs1=$CI->db->query($sql1, array($correo));
+  $rs1=$rs1->result();
+  if(count($rs1)>0){
+    echo "<script>alert('Ya hay un usuario registrado con este correo');</script>";
+
+  }else{
+
+
+
 $sql="insert into usuarios(nombre, correo, clave, provincia, telefono) values (?,?,?, ?, ?)";
-$CI=& get_instance();
+
 
 $nombre=$_POST['nombre'];
-$correo=$_POST['correo'];
+
 $clave=$_POST['clave'];
 $provincia=$_POST['provincia'];
 $telefono=$_POST['telefono'];
 $rs=$CI->db->query($sql, array($nombre, $correo, $clave, $provincia, $telefono));
 $mensaje2="Usuario Registrado con exito!";
 
-}
+}}
 plantilla::inicio();
 
+if(isset($_POST['anuncio'])){
+  $productos=cargar_pornombre();
+
+  if(count($productos)==0){
+
+echo"
+    <div style='color:red'>
+
+      No se encontraron productos!
+    </div>
+    ";
+  }else{
+
+
+    foreach ($productos as $producto) {
+
+      $sql2="select * from imagenes where idProducto = $producto->id ";
+      $CI =& get_instance();
+      $rs2=$CI->db->query($sql2);
+      $rs2= $rs2->result();
+      $imagen=array();
+
+      if (count($rs2)>0){
+        $imagen=$rs2[0];
+        $img=$imagen->id;
+      }else{
+        $img="logo";
+
+      }
+
+
+       echo"
+
+       <div class='col-sm-4 col-lg-4 col-md-4'>
+           <div class='thumbnail'>
+               <img src='/fotos/{$img}.jpg'  style='height:250px'alt=''>
+               <div class='caption'>
+                   <h4 class='pull-right'>RD$ {$producto->precio}</h4>
+                   <h4><a href='<?php echo site_url('web/ver_anuncio')?>{$producto->nombre}</a>
+                   </h4>
+                   <p>{$producto->descripcion} </p>
+               </div>
+
+
+               </div>
+               </div>
+       ";
+
+  }
+}
+
+
+}
 
 
  ?>
@@ -153,7 +224,23 @@ plantilla::inicio();
 
    </style>
 
-
+   <script>
+   (function(d,s,id) {
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if(d.getElementById(id)) return;
+     js = d.createElement(s); js.id = id;
+     js.src = "http://connect.facebook.net/es_ES/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+   window.fbAsyncInit = function() {
+     FB.init({
+         appId    : '287575934996971',
+         cookie   : true,
+         xfbml    : true,
+         version  : 'v2.0'
+     });
+   }
+   </script>
 
 
 
@@ -188,7 +275,7 @@ plantilla::inicio();
 
   <body>
     <div class="alert " ><center>
-			<h1>Ingrese al Sistema</h1></center> </div></header>
+			<h1>Inicie Sesion</h1></center> </div></header>
 <div class="container">
     	<div class="row">
 			<div class="col-md-6 col-md-offset-3">
@@ -226,15 +313,47 @@ plantilla::inicio();
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
-											</div>
+
+                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+
+                      </div>
 										</div>
 									</div>
 									<div class="form-group">
+                    <div class="row">
+											<div class="col-lg-12">
+												<div class="text-center">
+                          <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+                          <script>
+                          function checkLoginState() {
+                            FB.getLoginStatus(function(response) {
+                              statusChangeCallback(response);
+                            });
+                          }
+
+                          FB.login(function(response) {
+                            if (response.status === 'connected') {
+
+  } else {
+    // The person is not logged into this app or we are unable to tell.
+  }
+      });
+                          </script>
+
+                        </div>
+											</div>
+										</div>
+                    <br />
 										<div class="row">
 											<div class="col-lg-12">
 												<div class="text-center">
-													<a href="" tabindex="5" class="forgot-password">Olvido Clave?</a>
+													<a href="<?php echo site_url('email')?>" tabindex="5" class="forgot-password">Olvido Clave?</a>
+												</div>
+
+                        <div class="text-center">
+                          <br />
+													<a href="<?php echo site_url('web/admin')?>" tabindex="6"  class="btn btn-warning">ADMINISTRADOR</a>
 												</div>
 											</div>
 										</div>

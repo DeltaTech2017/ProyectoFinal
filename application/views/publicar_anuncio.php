@@ -25,7 +25,7 @@ $mensaje2="";
   $rs=$CI->db->query($sql, array($nombre, $tipo, $marca, $tamanoAro, $tamanoCuadro, $color, $precio, $descripcion, $user, $fecha));
 $idp=$this->db->insert_id();
 
-if(isset($_FILES['foto1'])){
+if($_FILES['foto1']['size']!=0 ){
   $f=new stdClass();
   $f->idProducto=$idp;
   $CI->db->insert('imagenes', $f);
@@ -37,7 +37,7 @@ if(isset($_FILES['foto1'])){
   }
 }
 
-if(isset($_FILES['foto2'])){
+if($_FILES['foto2']['size']!=0 ){
   $f=new stdClass();
   $f->idProducto=$idp;
   $CI->db->insert('imagenes', $f);
@@ -50,7 +50,7 @@ if(isset($_FILES['foto2'])){
 }
 
 
-if(isset($_FILES['foto3'])){
+if($_FILES['foto3']['size']!=0){
   $f=new stdClass();
   $f->idProducto=$idp;
   $CI->db->insert('imagenes', $f);
@@ -62,7 +62,7 @@ if(isset($_FILES['foto3'])){
   }
 }
 
-if(isset($_FILES['foto4'])){
+if($_FILES['foto4']['size']!=0 ){
   $f=new stdClass();
   $f->idProducto=$idp;
   $CI->db->insert('imagenes', $f);
@@ -74,7 +74,7 @@ if(isset($_FILES['foto4'])){
   }
 }
 
-if(isset($_FILES['foto5'])){
+if($_FILES['foto5']['size']!=0){
   $f=new stdClass();
   $f->idProducto=$idp;
   $CI->db->insert('imagenes', $f);
@@ -96,12 +96,67 @@ echo"
 </script>";
 
   }
+  if(isset($_POST['anuncio'])){
+    $productos=cargar_pornombre();
 
+    if(count($productos)==0){
+
+  echo"
+      <div style='color:red'>
+
+        No se encontraron productos!
+      </div>
+      ";
+    }else{
+
+
+      foreach ($productos as $producto) {
+
+        $sql2="select * from imagenes where idProducto = $producto->id ";
+        $CI =& get_instance();
+        $rs2=$CI->db->query($sql2);
+        $rs2= $rs2->result();
+        $imagen=array();
+
+        if (count($rs2)>0){
+          $imagen=$rs2[0];
+          $img=$imagen->id;
+        }else{
+          $img="logo";
+
+        }
+
+
+         echo"
+
+         <div class='col-sm-4 col-lg-4 col-md-4'>
+             <div class='thumbnail'>
+                 <img src='/fotos/{$img}.jpg' style='height:250px' alt=''>
+                 <div class='caption'>
+                     <h4 class='pull-right'>RD$ {$producto->precio}</h4>
+                     <h4><a href='<?php echo site_url('web/ver_anuncio')?>{$producto->nombre}</a>
+                     </h4>
+                     <p>{$producto->descripcion} </p>
+                 </div>
+
+
+                 </div>
+                 </div>
+         ";
+
+    }
+  }
+
+
+  }
 
  ?>
 
 
-
+ <script
+   src="https://code.jquery.com/jquery-3.2.1.js"
+   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+   crossorigin="anonymous"></script>
 
  <div class="text-right">
    <h4>Bienvenido <?php echo "{$usuario->nombre}" ?></h4>
@@ -257,37 +312,15 @@ echo"
 
   <div class="form-group">
     <label for="foto">Adjuntar fotos</label>
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto1" id="foto1"tabindex="9">
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto2"id="foto2"tabindex="10">
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto3"id="foto3"tabindex="11">
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto4"id="foto4"tabindex="12">
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto5"id="foto5"tabindex="13">
+    <input type="file" accept=".jpeg,.jpg,.png"name="foto1" id="ifoto1"tabindex="9">
+    <input type="file" accept=".jpeg,.jpg,.png"name="foto2"id="ifoto2"tabindex="10">
+    <input type="file" accept=".jpeg,.jpg,.png"name="foto3"id="ifoto3"tabindex="11">
+    <input type="file" accept=".jpeg,.jpg,.png"name="foto4"id="ifoto4"tabindex="12">
+    <input type="file" accept=".jpeg,.jpg,.png"name="foto5"id="ifoto5"tabindex="13">
 
     <p class="help-block">Solo .jpg y .png</p>
   </div>
-<div class="form-group">
-  <table class="table">
-<thead>
-  <tr>
-    <td>Foto1</td>
-    <td>Foto2</td>
-    <td>Foto3</td>
-    <td>Foto4</td>
-    <td>Foto5</td>
-  </tr>
 
-</thead>
-
-  <tbody>
-    
-
-
-  </tbody>
-
-  </table>
-
-
-</div>
   <center>
     <button type="submit" class="btn btn-success"tabindex="14">Enviar</button>
   </center>
