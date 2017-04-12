@@ -14,6 +14,12 @@ $this->load->view('inicio');
 
   }
 
+  function ver_anuncio(){
+
+    $this->load->view('ver_anuncio');
+
+  }
+
 
     function salir(){
 
@@ -25,6 +31,32 @@ function publicar_anuncio(){
   $this->load->view('publicar_anuncio');
 }
 
+function buscar_color(){
+  $this->load->view('buscar/color');
+
+}
+
+function buscar_marcas(){
+  $this->load->view('buscar/marcas');
+}
+
+function editar_anuncio(){
+  $this->load->view('editar_anuncio');
+}
+
+function buscar_precios(){
+  $this->load->view('buscar/precios');
+}
+
+function buscar_tamanos(){
+  $this->load->view('buscar/tamanos');
+}
+
+function buscar_tipos(){
+  $this->load->view('buscar/tipos');
+}
+
+
   function categorias(){
     $this->load->view('categorias');
   }
@@ -34,12 +66,13 @@ function publicar_anuncio(){
 
 
   }
-
-  function ver_anuncio(){
-    $this->load->view('ver_anuncio');
+  function mi_perfil(){
+    $this->load->view('mi_perfil');
 
 
   }
+
+
 
   function login(){
     $this->load->view('login');

@@ -1,5 +1,30 @@
 <?php
 session_start();
+$CI=& get_instance();
+$codigo=0;
+
+
+function cargar_productos(){
+  $CI=& get_instance();
+  $sql="select * from productos order by id desc ";
+$rs =$CI->db->query($sql);
+return $rs->result();}
+
+function cargar_items(){
+  $users=$_SESSION['user'];
+  $CI=& get_instance();
+  $sql="select * from productos where usuario={$users->id}";
+$rs =$CI->db->query($sql);
+return $rs->result();}
+
+
+function cargar_pornombre(){
+  $nombre=$_POST['nombre'];
+  $CI=& get_instance();
+  $sql="select * from productos where nombre like %{$nombre}%";
+$rs =$CI->db->query($sql);
+return $rs->result();}
+
 
 class plantilla{
   static $instancia;
@@ -9,6 +34,8 @@ class plantilla{
     self::$instancia=new plantilla();
 
   }
+
+
 
   function __construct(){
 
@@ -24,7 +51,8 @@ class plantilla{
       <meta name="description" content="">
       <meta name="author" content="">
 
-      <title>Tienda de Bicicletas</title>
+      <title>Delta Bikes</title>
+      <link href="<?php echo base_url('base')  ?>/logo.png" rel="icon" />
 
       <!-- Bootstrap Core CSS -->
       <link href="<?php echo base_url('base')  ?>/css/bootstrap.min.css" rel="stylesheet">
@@ -56,14 +84,13 @@ class plantilla{
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="<?php echo base_url('')?>">Tienda de Bicicletas</a>
+                  <img class="navbar-brand" src="<?php echo base_url('base')?>/logo.png">
+                  <a class="navbar-brand" href="<?php echo base_url('')?>">Delta Bikes</a>
               </div>
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
-                      <li class="categorias">
-                          <a href="<?php echo site_url('web/categorias')?>">Categorias</a>
-                      </li>
+                      
                       <li class="mi_cuenta">
                           <a href="<?php echo site_url('web/mi_cuenta')?>">Mi Cuenta</a>
                       </li>
@@ -74,7 +101,7 @@ class plantilla{
 
                   <form class="navbar-form navbar-right">
                     <input class="form-control mr-sm-2" type="text" placeholder="Buscar Anuncio">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" method="post">Buscar</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" method="post" action="cargar_pornombre">Buscar</button>
                   </form>
 
               </div>

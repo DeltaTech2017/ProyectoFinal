@@ -1,142 +1,70 @@
 <?php
 
 plantilla::inicio();
+
+$CI=& get_instance();
+
+
+
+
+
  ?>
 
 
          <div class="row">
 
-             <div class="col-md-3">
-                 <p class="lead">Shop Name</p>
+             <div class="col-md-2">
+                 <p class="lead">Buscar por:</p>
                  <div class="list-group">
-                     <a href="#" class="list-group-item">Category 1</a>
-                     <a href="#" class="list-group-item">Category 2</a>
-                     <a href="#" class="list-group-item">Category 3</a>
+                   <a href="<?php echo site_url('web/buscar_tipos')?>" class="list-group-item">Tipo</a>
+                     <a href="<?php echo site_url('web/buscar_marcas')?>" class="list-group-item">Marca</a>
+                     <a href="<?php echo site_url('web/buscar_tamanos')?>" class="list-group-item">Tamaño</a>
+                     <a href="<?php echo site_url('web/buscar_color')?>" class="list-group-item">Color</a>
+                     <a href="<?php echo site_url('web/buscar_precios')?>" class="list-group-item">Precio</a>
                  </div>
              </div>
 
-             <div class="col-md-9">
-
-
+             <div class="col-md-10">
 
                  <div class="row">
+                   <?php
+                   $productos=cargar_productos();
+                  $items=0;
 
-                     <div class="col-sm-4 col-lg-4 col-md-4">
-                         <div class="thumbnail">
-                             <img src="http://placehold.it/320x150" alt="">
-                             <div class="caption">
-                                 <h4 class="pull-right">$24.99</h4>
-                                 <h4><a href="<?php echo site_url('web/ver_anuncio')?>">First Product</a>
-                                 </h4>
-                                 <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
-                             </div>
-                             <div class="ratings">
-                                 <p class="pull-right">15 reviews</p>
-                                 <p>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                 </p>
-                             </div>
-                         </div>
-                     </div>
+                    foreach ($productos as $producto) {
 
-                     <div class="col-sm-4 col-lg-4 col-md-4">
-                         <div class="thumbnail">
-                             <img src="http://placehold.it/320x150" alt="">
-                             <div class="caption">
-                                 <h4 class="pull-right">$64.99</h4>
-                                 <h4><a href="#">Second Product</a>
-                                 </h4>
-                                 <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                             </div>
-                             <div class="ratings">
-                                 <p class="pull-right">12 reviews</p>
-                                 <p>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star-empty"></span>
-                                 </p>
-                             </div>
-                         </div>
-                     </div>
+                      $CI=& get_instance();
+                      $sql="select * from comentarios where idProducto = $producto->id ";
+                      $rs=$CI->db->query($sql);
+                      $rs= $rs->result();
+                      $cantidad=count($rs);
 
-                     <div class="col-sm-4 col-lg-4 col-md-4">
-                         <div class="thumbnail">
-                             <img src="http://placehold.it/320x150" alt="">
-                             <div class="caption">
-                                 <h4 class="pull-right">$74.99</h4>
-                                 <h4><a href="#">Third Product</a>
-                                 </h4>
-                                 <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                             </div>
-                             <div class="ratings">
-                                 <p class="pull-right">31 reviews</p>
-                                 <p>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star-empty"></span>
-                                 </p>
-                             </div>
-                         </div>
-                     </div>
 
-                     <div class="col-sm-4 col-lg-4 col-md-4">
-                         <div class="thumbnail">
-                             <img src="http://placehold.it/320x150" alt="">
-                             <div class="caption">
-                                 <h4 class="pull-right">$84.99</h4>
-                                 <h4><a href="#">Fourth Product</a>
-                                 </h4>
-                                 <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                             </div>
-                             <div class="ratings">
-                                 <p class="pull-right">6 reviews</p>
-                                 <p>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star-empty"></span>
-                                     <span class="glyphicon glyphicon-star-empty"></span>
-                                 </p>
-                             </div>
-                         </div>
-                     </div>
+                      echo"
+                      <div class='col-sm-4 col-lg-6 col-md-4'>
+                          <div class='thumbnail'>
+                              <img width='32' height='32'src='/tienda/base/logo.png' />
+                              <div class='caption'>
+                                  <h4 class='pull-right'>RD$ {$producto->precio}</h4>
+                                  <p>
+                                  <h4><a href='index.php/web/ver_anuncio?codigo={$producto->id}'>{$producto->nombre}</a>
+                                  </h4>
+                                  </p>
+                                  <p>{$producto->descripcion} </p>
+                                  <div class='ratings'>
+                                      <p class='pull-right'>{$cantidad} comentarios</p>
+                                      </div>
+                              </div>
 
-                     <div class="col-sm-4 col-lg-4 col-md-4">
-                         <div class="thumbnail">
-                             <img src="http://placehold.it/320x150" alt="">
-                             <div class="caption">
-                                 <h4 class="pull-right">$94.99</h4>
-                                 <h4><a href="#">Fifth Product</a>
-                                 </h4>
-                                 <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                             </div>
-                             <div class="ratings">
-                                 <p class="pull-right">18 reviews</p>
-                                 <p>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star"></span>
-                                     <span class="glyphicon glyphicon-star-empty"></span>
-                                 </p>
-                             </div>
-                         </div>
-                     </div>
 
-                     <div class="col-sm-4 col-lg-4 col-md-4">
-                         <h4><a href="#">Like this template?</a>
-                         </h4>
-                         <p>If you like this template, then check out <a target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this tutorial</a> on how to build a working review system for your online store!</p>
-                         <a class="btn btn-primary" target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">View Tutorial</a>
-                     </div>
+                                  </p>
+                              </div>
+                              </div>";
+                              $items++;
+
+}
+                    ?>
+
 
                  </div>
 
@@ -147,36 +75,7 @@ plantilla::inicio();
      </div>
      <!-- /.container -->
 
-<<?php
 
-
-  $imagenes = cargar_imagenes();
-
-$url=base_url('');
-  foreach($imagenes as $imagen){
-
-$foto="fotos/{$imagen->id}.jpg";
-
-if(!is_file($foto)){
-  $foto="http://placehold.it/750x450/?text=no_foto";
-
-}else{
-
-  $foto="{$url}/{$foto}";
-}
-
-echo <<<FOTO
-
-<div class="col-md-3 portfolio-item">
-    <a href="{$url}/web/ver_foto{$imagen->id}">
-        <img class="img-responsive" src="{$foto}" alt="">
-    </a>
-</div>
-
-FOTO;
-  }
-
- ?>
 </div>
 
 

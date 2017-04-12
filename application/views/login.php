@@ -7,8 +7,9 @@ if($_GET){
   $sql="select * from usuarios where correo = ? and clave= ? ";
   $CI =& get_instance();
   $correo=$_GET['email'];
-  $clave=md5($_GET['clave']);
+  $clave=$_GET['clave'];
   $rs=$CI->db->query($sql, array($correo, $clave));
+
 
   $rs=$rs->result();
   if(count($rs)>0){
@@ -25,13 +26,15 @@ redirect('web/mi_cuenta');
 }
 
 if($_POST){
-$sql="insert into usuarios(nombre, correo, clave) values (?,?,?)";
+$sql="insert into usuarios(nombre, correo, clave, provincia, telefono) values (?,?,?, ?, ?)";
 $CI=& get_instance();
 
 $nombre=$_POST['nombre'];
 $correo=$_POST['correo'];
-$clave=md5($_POST['clave']);
-$rs=$CI->db->query($sql, array($nombre, $correo, $clave));
+$clave=$_POST['clave'];
+$provincia=$_POST['provincia'];
+$telefono=$_POST['telefono'];
+$rs=$CI->db->query($sql, array($nombre, $correo, $clave, $provincia, $telefono));
 $mensaje2="Usuario Registrado con exito!";
 
 }
@@ -239,13 +242,19 @@ plantilla::inicio();
 								</form>
 								<form id="register-form" action="" method="post" role="form" style="display: none;">
 									<div class="form-group">
-										<input type="text" name="nombre" id="nombre" tabindex="1" class="form-control" placeholder="Usuario" value="">
+										<input type="text" name="nombre" id="nombre" tabindex="1" class="form-control" placeholder="Nombre" value="">
 									</div>
 									<div class="form-group">
-										<input type="email" name="correo" id="correo" tabindex="1" class="form-control" placeholder="Email" value="">
+										<input type="email" name="correo" id="correo" tabindex="2" class="form-control" placeholder="Email" value="">
 									</div>
 									<div class="form-group">
-										<input type="password" name="clave" id="clave" tabindex="2" class="form-control" placeholder="Clave">
+										<input type="password" name="clave" id="clave" tabindex="3" class="form-control" placeholder="Clave">
+									</div>
+                  <div class="form-group">
+										<input type="text" name="provincia" id="provincia" tabindex="4" class="form-control" placeholder="Provincia" value="">
+									</div>
+                  <div class="form-group">
+										<input type="text" name="telefono" id="telefono" tabindex="5" class="form-control" placeholder="Telefono" value="">
 									</div>
 
 									<div class="form-group">

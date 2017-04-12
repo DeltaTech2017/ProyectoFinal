@@ -7,9 +7,15 @@
   $CI=& get_instance();
   $usuario=$_SESSION['user'];
 $mensaje2="";
+$a=$_GET['edit'];
+$sql2="select * from productos where id=$a";
+$rs3=$CI->db->query($sql2);
+$rs3=$rs3->result();
+$producto=$rs3[0];
+
 
   if($_POST){
-  $sql="insert into productos(nombre, tipo, marca, tamanoAro, tamanoCuadro, color, precio, descripcion, usuario, fecha) values (?,?,?,?,?, ?, ?, ?, ?, ?)";
+  $sql="update productos set nombre=?, tipo=?, marca=?, tamanoAro=?, tamanoCuadro=?, color=?, precio=?, descripcion=?, usuario=?, fecha=? where id=$producto->id";
   $CI=& get_instance();
 
   $nombre=$_POST['nombre'];
@@ -21,81 +27,20 @@ $mensaje2="";
   $precio=$_POST['precio'];
   $descripcion=$_POST['descripcion'];
   $fecha=date('Y-m-d H:i:s');
+
+
   $user=$usuario->id;
+
+
   $rs=$CI->db->query($sql, array($nombre, $tipo, $marca, $tamanoAro, $tamanoCuadro, $color, $precio, $descripcion, $user, $fecha));
-$idp=$this->db->insert_id();
-
-if(isset($_FILES['foto1'])){
-  $f=new stdClass();
-  $f->idProducto=$idp;
-  $CI->db->insert('imagenes', $f);
-  $cod=$this->db->insert_id();
-  $foto=$_FILES['foto1'];
-  if($foto['error']==0){
-    $tmp="fotos/{$cod}.jpg";
-    move_uploaded_file($foto['tmp_name'], $tmp);
-  }
-}
-
-if(isset($_FILES['foto2'])){
-  $f=new stdClass();
-  $f->idProducto=$idp;
-  $CI->db->insert('imagenes', $f);
-  $cod=$this->db->insert_id();
-  $foto=$_FILES['foto2'];
-  if($foto['error']==0){
-    $tmp="fotos/{$cod}.jpg";
-    move_uploaded_file($foto['tmp_name'], $tmp);
-  }
-}
-
-
-if(isset($_FILES['foto3'])){
-  $f=new stdClass();
-  $f->idProducto=$idp;
-  $CI->db->insert('imagenes', $f);
-  $cod=$this->db->insert_id();
-  $foto=$_FILES['foto3'];
-  if($foto['error']==0){
-    $tmp="fotos/{$cod}.jpg";
-    move_uploaded_file($foto['tmp_name'], $tmp);
-  }
-}
-
-if(isset($_FILES['foto4'])){
-  $f=new stdClass();
-  $f->idProducto=$idp;
-  $CI->db->insert('imagenes', $f);
-  $cod=$this->db->insert_id();
-  $foto=$_FILES['foto4'];
-  if($foto['error']==0){
-    $tmp="fotos/{$cod}.jpg";
-    move_uploaded_file($foto['tmp_name'], $tmp);
-  }
-}
-
-if(isset($_FILES['foto5'])){
-  $f=new stdClass();
-  $f->idProducto=$idp;
-  $CI->db->insert('imagenes', $f);
-  $cod=$this->db->insert_id();
-  $foto=$_FILES['foto5'];
-  if($foto['error']==0){
-    $tmp="fotos/{$cod}.jpg";
-    move_uploaded_file($foto['tmp_name'], $tmp);
-  }
-}
-
-
-
-
-
 echo"
 <script>
-  alert('Publicacion guardada con exito!');
+  alert('Publicacion editada!');
 </script>";
-
+redirect('web/mi_cuenta');
   }
+
+
 
 
  ?>
@@ -114,8 +59,8 @@ echo"
      <div class="col-md-2">
          <p class="lead">Panel de control</p>
          <div class="list-group">
-             <a href="<?php echo site_url('web/publicar_anuncio')?>" class=" active list-group-item list-group-item-info">Publicar Anuncio</a>
-             <a href="<?php echo site_url('web/mi_cuenta')?>" class="list-group-item list-group-item-info">Mis Anuncios</a>
+             <a href="<?php echo site_url('web/publicar_anuncio')?>" class="  list-group-item list-group-item-info">Publicar Anuncio</a>
+             <a href="<?php echo site_url('web/mi_cuenta')?>" class="active list-group-item list-group-item-info">Mis Anuncios</a>
              <a href="<?php echo site_url('web/mi_perfil')?>" class="list-group-item list-group-item-info">Mi Perfil</a>
          </div>
      </div>
@@ -123,17 +68,17 @@ echo"
      <div class="col-md-6">
 
 
-       <form role="form"  enctype="multipart/form-data"method="post" action="">
+       <form role="form"  method="post" action="">
   <div class="form-group">
 
     <label for="nombre">Titulo de la publicacion</label>
     <input type="text" class="form-control" required name="nombre" id="nombre"
-           placeholder="Introduce el titulo" tabindex="1">
+           placeholder="Introduce el titulo" tabindex="1" value="<?php echo $producto->nombre?>">
   </div>
   <div class="form-group">
     <label for="">Tipo</label>
     <select required class="form-control"  name="tipo"id="tipo" tabindex="2">
-  <option></option>
+  <option> <?php echo $producto->tipo?></option>
   <option>Chopper</option>
   <option>Estacionaria</option>
   <option>Mountain Bike (MTB)</option>
@@ -149,7 +94,7 @@ echo"
   <div class="form-group">
     <label for="">Marca</label>
     <select required class="form-control" name="marca"id="marca" tabindex="3">
-  <option></option>
+  <option><?php echo $producto->marca?></option>
   <option>BH</option>
   <option>Bianchi</option>
   <option>BMC</option>
@@ -211,7 +156,7 @@ echo"
   <div class="form-group">
     <label for="">Tamaño del Aro</label>
     <select required class="form-control" name="tamanoAro" id="tamanoAro" tabindex="4">
-  <option></option>
+  <option><?php echo $producto->tamanoAro?></option>
   <option>12 pulgadas</option>
   <option>16 pulgadas</option>
   <option>20 pulgadas</option>
@@ -225,8 +170,8 @@ echo"
 
   <div class="form-group">
     <label for="">Tamaño del cuadro</label>
-    <select required class="form-control" name="tamanoCuadro"id="tamanoCuadro" tabindex="5">
-  <option></option>
+    <select required class="form-control"  name="tamanoCuadro"id="tamanoCuadro" tabindex="5">
+  <option><?php echo $producto->tamanoCuadro?></option>
   <option>Desconocido</option>
   <option>Niños</option>
   <option>XS</option>
@@ -241,53 +186,31 @@ echo"
   <div class="form-group">
     <label for="color">Color</label>
     <input type="text" class="form-control" name="color"id="color"
-           placeholder="Introduce el color" tabindex="6">
+           placeholder="Introduce el color" value="<?php echo $producto->color?>" tabindex="6">
 </div>
      <div class="form-group">
        <label for="precio">Precio</label>
-       <input required type="" class="form-control" name="precio" id="precio"
+       <input required type="" class="form-control" value="<?php echo $producto->precio?>"name="precio" id="precio"
               placeholder="Introduce el precio" tabindex="7">
 </div>
 
 <div class="form-group">
   <label for="descripcion">Descripcion</label>
-  <textarea required class="form-control" id="descripcion" name="descripcion" rows="4" tabindex="8"></textarea>
+  <textarea required class="form-control" id="descripcion" name="descripcion" rows="4" tabindex="8"><?php echo $producto->descripcion?></textarea>
 </div>
 
 
   <div class="form-group">
     <label for="foto">Adjuntar fotos</label>
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto1" id="foto1"tabindex="9">
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto2"id="foto2"tabindex="10">
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto3"id="foto3"tabindex="11">
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto4"id="foto4"tabindex="12">
-    <input type="file" accept=".jpeg,.jpg,.png"name="foto5"id="foto5"tabindex="13">
+    <input type="file" id="foto1"tabindex="9">
+    <input type="file" id="foto2"tabindex="10">
+    <input type="file" id="foto3"tabindex="11">
+    <input type="file" id="foto4"tabindex="12">
+    <input type="file" id="foto5"tabindex="13">
 
-    <p class="help-block">Solo .jpg y .png</p>
+    <p class="help-block">Archivos .jpg y .png</p>
   </div>
-<div class="form-group">
-  <table class="table">
-<thead>
-  <tr>
-    <td>Foto1</td>
-    <td>Foto2</td>
-    <td>Foto3</td>
-    <td>Foto4</td>
-    <td>Foto5</td>
-  </tr>
 
-</thead>
-
-  <tbody>
-    
-
-
-  </tbody>
-
-  </table>
-
-
-</div>
   <center>
     <button type="submit" class="btn btn-success"tabindex="14">Enviar</button>
   </center>
